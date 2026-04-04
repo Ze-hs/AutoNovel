@@ -9,6 +9,12 @@ const bookSchema: Schema = new Schema<Book>({
 		type: Schema.Types.ObjectId,
 		ref: "User",
 	},
+	chapters: [
+		{
+			type: Schema.Types.ObjectId,
+			ref: "Chapter",
+		},
+	],
 });
 
 bookSchema.set("toJSON", {

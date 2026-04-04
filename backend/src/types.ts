@@ -2,6 +2,12 @@ import z from "zod";
 import { BookSchema, NewBookSchema } from "./schemas/book.schema";
 
 import {
+	ChapterListItem,
+	ChapterSchema,
+	NewChapterSchema,
+} from "./schemas/chapter.schema";
+
+import {
 	AuthResponseSchema,
 	DBUserSchema,
 	JwtPayloadSchema,
@@ -14,6 +20,10 @@ import {
 
 export type Book = z.infer<typeof BookSchema>;
 export type NewBook = z.infer<typeof NewBookSchema>;
+
+export type Chapter = z.infer<typeof ChapterSchema>;
+export type NewChapter = z.infer<typeof NewChapterSchema>;
+export type ChapterListItem = z.infer<typeof ChapterListItem>;
 
 export interface IdParam {
 	id: string;

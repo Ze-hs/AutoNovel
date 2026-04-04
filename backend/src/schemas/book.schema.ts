@@ -7,6 +7,7 @@ export const BookSchema = z.object({
 	link: z.string().optional(),
 	title: z.string(),
 	user: z.instanceof(Types.ObjectId),
+	chapters: z.array(z.instanceof(Types.ObjectId)),
 });
 
 export const NewBookSchema = BookSchema.omit({

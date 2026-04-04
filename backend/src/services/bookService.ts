@@ -1,10 +1,10 @@
 import { NewBook, Book } from "../types";
 import BookModel from "../models/BookModel";
 
-const getBook = async (id: string): Promise<Book> => {
-	const book = await BookModel.findOne({ _id: id }).lean();
+const getBook = async (bookId: string): Promise<Book> => {
+	const book = await BookModel.findById(bookId);
 	if (!book) {
-		throw new Error(`Book ${id} not found`);
+		throw new Error(`Book ${bookId} not found`);
 	}
 	return book;
 };

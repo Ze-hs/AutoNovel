@@ -1,6 +1,7 @@
 import { Schema, model } from "mongoose";
+import { Chapter } from "../types";
 
-const chapterSchema: Schema = new Schema({
+const chapterSchema: Schema = new Schema<Chapter>({
 	number: { type: Number },
 	title: { type: String, required: true },
 	content: String,
@@ -8,6 +9,10 @@ const chapterSchema: Schema = new Schema({
 	user: {
 		type: Schema.Types.ObjectId,
 		ref: "User",
+	},
+	book: {
+		type: Schema.Types.ObjectId,
+		ref: "Book",
 	},
 });
 
@@ -23,4 +28,4 @@ chapterSchema.set("toJSON", {
 	},
 });
 
-export default model("Book", chapterSchema);
+export default model<Chapter>("Chapter", chapterSchema);
