@@ -34,7 +34,6 @@ export const verifyJWTAuth = async (
 	next: NextFunction,
 ) => {
 	try {
-		console.log(req.cookies);
 		const autoNovelToken = req.cookies.autoNovelToken;
 
 		const userToken = jwt.verify(autoNovelToken, config.SECRET);

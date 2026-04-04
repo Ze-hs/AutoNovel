@@ -1,5 +1,6 @@
 import { NewBook, Book } from "../types";
 import BookModel from "../models/BookModel";
+import UserModel from "../models/UserModel";
 
 const getBook = async (bookId: string): Promise<Book> => {
 	const book = await BookModel.findById(bookId);
@@ -16,8 +17,14 @@ const getAllBooksByUser = async (userId: string): Promise<Book[]> => {
 const addBook = async (book: NewBook, userID: string): Promise<Book> => {
 	const newBookData = {
 		...book,
-		userID,
+		user: userID,
 	};
+
+	const user = await UserModel.findById(userID);
+
+	if (!user) {
+		throw new Error("User not found");
+	}
 
 	const newBook = new BookModel(newBookData);
 	const savedBook = await newBook.save();
@@ -25,6 +32,8 @@ const addBook = async (book: NewBook, userID: string): Promise<Book> => {
 	if (!savedBook) {
 		throw new Error("Could not add new book");
 	}
+	user.books = user.books.concat(savedBook._id);
+	await user.save();
 
 	return savedBook;
 };
@@ -50,7 +59,7 @@ const updateBook = async (
 const deleteBook = async (bookId: string, userId: string) => {
 	const deletedBook = await BookModel.findOneAndDelete({
 		_id: bookId,
-		userId,
+		user: userId,
 	});
 
 	if (!deletedBook) {

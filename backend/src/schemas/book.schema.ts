@@ -13,4 +13,5 @@ export const BookSchema = z.object({
 export const NewBookSchema = BookSchema.omit({
 	id: true,
 	user: true,
+	chapters: true,
 });

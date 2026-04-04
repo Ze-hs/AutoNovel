@@ -8,6 +8,7 @@ const bookSchema: Schema = new Schema<Book>({
 	user: {
 		type: Schema.Types.ObjectId,
 		ref: "User",
+		required: true,
 	},
 	chapters: [
 		{

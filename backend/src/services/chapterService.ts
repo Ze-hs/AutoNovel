@@ -1,11 +1,12 @@
-import { Book, Chapter, ChapterListItem, NewChapter } from "../types";
+import { Chapter, ChapterListItem, NewChapter } from "../types";
 import BookModel from "../models/BookModel";
 import ChapterModel from "../models/ChapterModel";
 
 const getAllBookChapters = async (
 	bookId: string,
+	userId: string,
 ): Promise<ChapterListItem[]> => {
-	const book = await BookModel.findById(bookId)
+	const book = await BookModel.findOne({ _id: bookId, user: userId })
 		.populate<{
 			chapters: Chapter[];
 		}>("chapters", "title number lastUpdated")
@@ -18,8 +19,11 @@ const getAllBookChapters = async (
 	return book.chapters;
 };
 
-const getChapter = async (chapterId: string) => {
-	const chapter = await ChapterModel.findById(chapterId);
+const getChapter = async (chapterId: string, userId: string) => {
+	const chapter = await ChapterModel.findOne({
+		_id: chapterId,
+		user: userId,
+	});
 
 	if (!chapter) {
 		throw new Error(`Chapter ${chapterId} not found`);
@@ -31,47 +35,59 @@ const getChapter = async (chapterId: string) => {
 const addChapter = async (
 	chapter: NewChapter,
 	userID: string,
-): Promise<Book> => {
+): Promise<Chapter> => {
+	const bookId = chapter.book;
+
+	const book = await BookModel.findById(bookId);
+	if (!book) {
+		throw new Error(`Book unable to be found`);
+	}
+
 	const newChapterData = {
 		...chapter,
-		userID,
+		user: userID,
+		book: book,
+		lastUpdated: Date.now(),
 	};
 
-	const newChapter = new BookModel(newChapterData);
-	const savedBook = await newChapter.save();
+	const newChapter = new ChapterModel(newChapterData);
+	const savedChapter = await newChapter.save();
 
-	if (!savedBook) {
+	book.chapters = book.chapters.concat(savedChapter._id);
+	await book.save();
+
+	if (!savedChapter) {
 		throw new Error(`Chapter unable to be added`);
 	}
 
-	return savedBook;
+	return savedChapter;
 };
 
 const updateChapter = async (
 	chapterId: string,
 	userId: string,
 	chapter: Chapter,
-): Promise<Book> => {
-	const updatedBook = await BookModel.findOneAndUpdate(
+): Promise<Chapter> => {
+	const updatedChapter = await ChapterModel.findOneAndUpdate(
 		{ _id: chapterId, user: userId },
 		chapter,
 		{ returnDocument: "after" },
 	);
 
-	if (!updatedBook) {
-		throw new Error(`Book with id ${chapterId} not found`);
+	if (!updatedChapter) {
+		throw new Error(`Chapter with id ${chapterId} not found`);
 	}
 
-	return updatedBook;
+	return updatedChapter;
 };
 
 const deleteChapter = async (chapterId: string, userId: string) => {
-	const deletedBook = await BookModel.findOneAndDelete({
+	const deletedChapter = await ChapterModel.findOneAndDelete({
 		_id: chapterId,
-		userId,
+		user: userId,
 	});
 
-	if (!deletedBook) {
+	if (!deletedChapter) {
 		throw new Error(`Book ${chapterId} could not be deleted`);
 	}
 };

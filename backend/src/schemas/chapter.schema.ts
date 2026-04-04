@@ -14,6 +14,9 @@ export const ChapterSchema = z.object({
 export const NewChapterSchema = ChapterSchema.omit({
 	id: true,
 	user: true,
+	lastUpdated: true,
+}).extend({
+	book: z.string(),
 });
 
 export const ChapterListItem = ChapterSchema.omit({
