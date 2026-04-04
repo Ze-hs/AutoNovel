@@ -10,12 +10,13 @@ registerRouter.post(
 	"/",
 	RegisterParser,
 	async (req: Request<unknown, unknown, RegisterData>, res: Response) => {
-		const { name, username, password } = req.body;
+		const { name, email, username, password } = req.body;
 		const saltRounds = 10;
 		const passwordHash = await bcrypt.hash(password, saltRounds);
 
 		const user = new UserModel({
 			name,
+			email,
 			username,
 			passwordHash,
 		});

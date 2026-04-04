@@ -22,7 +22,7 @@ router.post(
 
 		if (!(user && passwordCorrect)) {
 			return res.status(401).json({
-				error: "invalid username or password",
+				error: "Invalid username or password",
 			});
 		}
 
@@ -31,11 +31,20 @@ router.post(
 			id: user._id,
 		};
 
-		const token = jwt.sign(userForToken, config.SECRET);
+		// Jwt expiry date
+		const token = jwt.sign(userForToken, config.SECRET, {
+			expiresIn: "24h",
+		});
+
+		// Cookie expiry date, 24 hours
+		const expiryDate = new Date(Date.now() + 60 * 60 * 24 * 1000);
+		res.cookie("autoNovelToken", token, {
+			httpOnly: true,
+			secure: true,
+			expires: expiryDate,
+		});
 
 		return res.status(200).send({
-			token,
-			username: user.username,
 			name: user.name,
 		});
 	},

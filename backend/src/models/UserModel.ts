@@ -4,6 +4,7 @@ import { RoleSchema } from "../schemas/user.schema";
 
 const userSchema: Schema = new Schema<DBUser>({
 	username: { type: String, required: true, unique: true },
+	email: { type: String, required: true, unique: true },
 	name: { type: String, required: true },
 	passwordHash: String,
 	role: {
@@ -15,7 +16,7 @@ const userSchema: Schema = new Schema<DBUser>({
 	books: [
 		{
 			type: mongoose.Schema.Types.ObjectId,
-			ref: "Note",
+			ref: "Book",
 		},
 	],
 });

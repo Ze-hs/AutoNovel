@@ -28,16 +28,42 @@ export const extractBearerAuth = (
 	next();
 };
 
+export const verifyJWTAuth = async (
+	req: Request,
+	res: Response,
+	next: NextFunction,
+) => {
+	try {
+		console.log(req.cookies);
+		const autoNovelToken = req.cookies.autoNovelToken;
+
+		const userToken = jwt.verify(autoNovelToken, config.SECRET);
+
+		const token = JwtPayloadSchema.parse(userToken) as JwtUser;
+		req.user = token;
+		next();
+	} catch (err: unknown) {
+		res.clearCookie("autoNovelToken");
+		next(err);
+	}
+};
+
 export const verifyUser = async (
 	req: Request,
 	_res: Response,
 	next: NextFunction,
 ) => {
-	const token = req.user as JwtUser;
+	const autoNovelToken = req.cookies.autoNovelToken;
+	const userToken = jwt.verify(autoNovelToken, config.SECRET);
+
+	const token = JwtPayloadSchema.parse(userToken);
 	const user = await UserModel.findById(token.id);
 
 	if (!user) {
 		throw new Error("User not found");
 	}
+
+	req.user = token;
+
 	next();
 };

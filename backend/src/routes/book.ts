@@ -3,13 +3,12 @@ import { Request, Response } from "express";
 import { JwtUser } from "../../types/express";
 
 import bookService from "../services/bookService";
-import { extractBearerAuth, verifyUser } from "../middlewares/authMiddleware";
-import { NewNoteParser } from "../middlewares/parserMiddleware";
+import { verifyJWTAuth } from "../middlewares/authMiddleware";
+import { NewBookParser } from "../middlewares/parserMiddleware";
 
 const router = express.Router();
 
-router.use(extractBearerAuth);
-router.use(verifyUser);
+router.use(verifyJWTAuth);
 
 router.get("/", async (req: Request, res: Response) => {
 	const user = req.user as JwtUser;
@@ -19,36 +18,37 @@ router.get("/", async (req: Request, res: Response) => {
 router.get("/:id", async (req: Request, res: Response) => {
 	const user = req.user as JwtUser;
 	const id = req.params.id as string;
-	const note = await bookService.getBook(id);
+	const book = await bookService.getBook(id);
 
-	if (!note) {
+	if (!book) {
 		return res.status(404);
-	} else if (note.user.toString() != user.id) {
+	} else if (book.user.toString() != user.id) {
 		return res.status(401);
 	} else {
-		return res.json(note);
+		return res.json(book);
 	}
 });
 
-router.put("/:id", NewNoteParser, async (req: Request, res) => {
+router.put("/:id", NewBookParser, async (req: Request, res) => {
 	const id = req.params.id as string;
 	const user = req.user as JwtUser;
 
-	const updateNote = await bookService.updateBook(id, user.id, req.body);
-	if (!updateNote) {
+	const updateBook = await bookService.updateBook(id, user.id, req.body);
+	if (!updateBook) {
 		return res.status(404);
 	}
-	return res.json(updateNote);
+	return res.json(updateBook);
 });
 
 // router.delete("/:id", (req, res) => {});
-router.post("/", NewNoteParser, async (req: Request, res: Response) => {
+router.post("/", NewBookParser, async (req: Request, res: Response) => {
 	const user = req.user as JwtUser;
-	const addedNote = await bookService.addBook(req.body, user.id);
-	if (!addedNote) {
+
+	const addedBook = await bookService.addBook(req.body, user.id);
+	if (!addedBook) {
 		return res.status(404);
 	}
-	return res.json(addedNote);
+	return res.json(addedBook);
 });
 
 router.delete("/:id", async (req: Request, res: Response) => {
@@ -56,7 +56,7 @@ router.delete("/:id", async (req: Request, res: Response) => {
 	const user = req.user as JwtUser;
 	await bookService.deleteBook(id, user.id);
 
-	return res.status(200).json({ message: "Note deleted successfully", id });
+	return res.status(200).json({ message: "Book deleted successfully", id });
 });
 
 export default router;

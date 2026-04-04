@@ -13,9 +13,9 @@ const getAllBooksByUser = async (userId: string): Promise<Book[]> => {
 	return await BookModel.find({ user: userId });
 };
 
-const addBook = async (note: NewBook, userID: string): Promise<Book> => {
+const addBook = async (book: NewBook, userID: string): Promise<Book> => {
 	const newBookData = {
-		...note,
+		...book,
 		userID,
 	};
 
@@ -34,17 +34,17 @@ const updateBook = async (
 	userId: string,
 	book: Book,
 ): Promise<Book> => {
-	const updatedNote = await BookModel.findOneAndUpdate(
+	const updatedBook = await BookModel.findOneAndUpdate(
 		{ _id: bookId, user: userId },
 		book,
 		{ returnDocument: "after" },
 	);
 
-	if (!updatedNote) {
-		throw new Error(`Note with id ${bookId} not found`);
+	if (!updatedBook) {
+		throw new Error(`Book with id ${bookId} not found`);
 	}
 
-	return updatedNote;
+	return updatedBook;
 };
 
 const deleteBook = async (bookId: string, userId: string) => {

@@ -34,7 +34,7 @@ export const LoginParser = async (
 };
 
 // MiddleWare
-export const NewNoteParser = (
+export const NewBookParser = (
 	req: Request,
 	res: Response,
 	next: NextFunction,

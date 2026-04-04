@@ -4,7 +4,7 @@ const chapterSchema: Schema = new Schema({
 	number: { type: Number },
 	title: { type: String, required: true },
 	content: String,
-	lastUpdated: { type: Date, default: new Date() },
+	lastUpdated: { type: Date, default: Date.now() },
 	user: {
 		type: Schema.Types.ObjectId,
 		ref: "User",
