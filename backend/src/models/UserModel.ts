@@ -6,7 +6,7 @@ const userSchema: Schema = new Schema<DBUser>({
 	username: { type: String, required: true, unique: true },
 	email: { type: String, required: true, unique: true },
 	name: { type: String, required: true },
-	passwordHash: String,
+	password: String,
 	role: {
 		type: String,
 		enum: RoleSchema.options,
@@ -26,7 +26,7 @@ userSchema.set("toJSON", {
 		ret.id = ret._id.toString();
 		delete ret._id;
 		delete ret.__v;
-		delete ret.passwordHash;
+		delete ret.password;
 		return ret;
 	},
 });

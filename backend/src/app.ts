@@ -23,7 +23,7 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 
-// app.use(middleware.requestLogger);
+app.use(middleware.requestLogger);
 
 app.use("/api/auth/register", registerRouter);
 app.use("/api/books", booksRouter);

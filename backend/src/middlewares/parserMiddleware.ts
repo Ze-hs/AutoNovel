@@ -11,13 +11,9 @@ export const RegisterParser = async (
 	_res: Response,
 	next: NextFunction,
 ) => {
-	try {
-		const parsed = await RegisterDataSchema.parse(req.body);
-		req.body = parsed;
-		next();
-	} catch (error: unknown) {
-		next(error);
-	}
+	const parsed = await RegisterDataSchema.parse(req.body);
+	req.body = parsed;
+	next();
 };
 
 export const LoginParser = async (
@@ -30,7 +26,6 @@ export const LoginParser = async (
 	next();
 };
 
-// MiddleWare
 export const NewBookParser = (
 	req: Request,
 	_res: Response,
