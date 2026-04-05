@@ -41,7 +41,6 @@ router.put("/:id", NewBookParser, async (req: Request, res) => {
 	return res.json(updateBook);
 });
 
-// router.delete("/:id", (req, res) => {});
 router.post("/", NewBookParser, async (req: Request, res: Response) => {
 	const user = req.user as JwtUser;
 	const addedBook = await bookService.addBook(req.body, user.id);
