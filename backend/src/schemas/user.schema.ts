@@ -7,7 +7,7 @@ export const UserSchema = z.object({
 	id: z.string(),
 	username: z.string(),
 	email: z.email(),
-	passwordHash: z.string(),
+	password: z.string(),
 	name: z.string(),
 	role: RoleSchema,
 	books: z.array(z.instanceof(Types.ObjectId)),
@@ -33,7 +33,7 @@ export const AuthResponseSchema = z.object({
 });
 
 export const DBUserSchema = UserSchema.extend({
-	passwordHash: z.string(),
+	password: z.string(),
 });
 
 export const JwtPayloadSchema = z.object({

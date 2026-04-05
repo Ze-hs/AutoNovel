@@ -20,7 +20,6 @@ describe("Register", () => {
 	test("User fails to sign up due to missing name", async () => {
 		const newUser: Partial<(typeof users)[0]> = { ...users[0] };
 		delete newUser.name;
-		console.log(newUser);
 		await api.post("/api/auth/register").send(newUser).expect(400);
 	});
 

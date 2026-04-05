@@ -18,7 +18,7 @@ router.post(
 		const passwordCorrect =
 			user === null
 				? false
-				: await bcrypt.compare(password, user.passwordHash);
+				: await bcrypt.compare(password, user.password);
 
 		if (!(user && passwordCorrect)) {
 			return res.status(401).json({
