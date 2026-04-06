@@ -17,6 +17,7 @@ mongoose
 	})
 	.catch(() => {
 		logger.error("error connection to MongoDB:");
+		process.exit(1);
 	});
 
 const app = express();
