@@ -9,7 +9,7 @@ import fs from "fs";
 type DestinationCallback = (error: Error | null, destination: string) => void;
 type FileNameCallback = (error: Error | null, filename: string) => void;
 
-const baseDir = process.cwd(); // this is usually your project root
+const baseDir = process.cwd();
 const uploadDir = path.join(baseDir, "uploads");
 
 // Make sure folder exists
@@ -17,7 +17,6 @@ if (!fs.existsSync(uploadDir)) {
 	fs.mkdirSync(uploadDir, { recursive: true });
 }
 
-// @ts-ignore
 const fileFilter = (
 	_req: Request,
 	file: Express.Multer.File,
