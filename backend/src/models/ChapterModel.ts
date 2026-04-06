@@ -2,9 +2,10 @@ import { Schema, model } from "mongoose";
 import { Chapter } from "../types";
 
 const chapterSchema: Schema = new Schema<Chapter>({
-	number: { type: Number },
+	part: { type: Number },
 	title: { type: String, required: true },
 	content: String,
+	translation: String,
 	lastUpdated: { type: Date, default: Date.now() },
 	user: {
 		type: Schema.Types.ObjectId,

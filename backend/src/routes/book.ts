@@ -1,10 +1,12 @@
 import express from "express";
 import { Request, Response } from "express";
-import { JwtUser } from "../../types/express";
 
 import bookService from "../services/bookService";
+
+import { JwtUser } from "../../types/express";
 import { verifyJWTAuth } from "../middlewares/authMiddleware";
 import { NewBookParser } from "../middlewares/parserMiddleware";
+import { epubUpload } from "../middlewares/uploadMiddleware";
 
 const router = express.Router();
 
@@ -56,6 +58,12 @@ router.delete("/:id", async (req: Request, res: Response) => {
 	await bookService.deleteBook(id, user.id);
 
 	return res.status(200).json({ message: "Book deleted successfully", id });
+});
+
+router.post("/upload", epubUpload, async (req: Request, res: Response) => {
+	res.json(req.file);
+
+	// Process prob going to need to split to multiple parts and then split
 });
 
 export default router;

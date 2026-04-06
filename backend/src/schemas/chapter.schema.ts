@@ -3,7 +3,7 @@ import { Types } from "mongoose";
 
 export const ChapterSchema = z.object({
 	id: z.string(),
-	number: z.number(),
+	part: z.number(),
 	content: z.string(),
 	translation: z.string().optional(),
 	title: z.string(),
