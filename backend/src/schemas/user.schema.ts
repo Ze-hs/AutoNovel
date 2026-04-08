@@ -1,16 +1,18 @@
 import z from "zod";
-import { Types } from "mongoose";
+import { Language } from "../../types/languages.enum";
 
 export const RoleSchema = z.enum(["user", "admin"]);
 
 export const UserSchema = z.object({
 	id: z.string(),
-	username: z.string(),
-	email: z.email(),
-	password: z.string(),
 	name: z.string(),
+	username: z.string(),
+	password: z.string(),
 	role: RoleSchema,
-	books: z.array(z.instanceof(Types.ObjectId)),
+	languagePref: z.enum(Language),
+	createdAt: z.date(),
+	updatedAt: z.date(),
+	// books: z.array(z.instanceof(Types.ObjectId)),
 });
 
 export const NewUserSchema = UserSchema.omit({ id: true });
@@ -22,7 +24,6 @@ export const LoginCredentialsSchema = z.object({
 
 export const RegisterDataSchema = z.object({
 	name: z.string(),
-	email: z.email(),
 	username: z.string(),
 	password: z.string(),
 });

@@ -3,20 +3,20 @@ import { Types } from "mongoose";
 
 export const ChapterSchema = z.object({
 	id: z.string(),
-	part: z.number(),
-	content: z.string(),
-	translation: z.string().optional(),
-	title: z.string(),
-	lastUpdated: z.date(),
-	user: z.instanceof(Types.ObjectId),
 	book: z.instanceof(Types.ObjectId),
+	chapterNumber: z.number(),
+	title: z.string(),
+	content: z.string(),
+	user: z.instanceof(Types.ObjectId),
+	createdAt: z.date(),
+	updatedAt: z.date(),
 });
 
 export const NewChapterSchema = ChapterSchema.omit({
 	id: true,
 	user: true,
-	lastUpdated: true,
-	translation: true,
+	createdAt: true,
+	updatedAt: true,
 }).extend({
 	book: z.string(),
 });
@@ -24,5 +24,5 @@ export const NewChapterSchema = ChapterSchema.omit({
 export const ChapterListItem = ChapterSchema.omit({
 	content: true,
 	user: true,
-	translation: true,
+	chapterNumber: true,
 });

@@ -17,6 +17,7 @@ import {
 	RoleSchema,
 	UserSchema,
 } from "./schemas/user.schema";
+import { TranslationSchema } from "./schemas/translations.schema";
 
 export type Book = z.infer<typeof BookSchema>;
 export type NewBook = z.infer<typeof NewBookSchema>;
@@ -24,6 +25,8 @@ export type NewBook = z.infer<typeof NewBookSchema>;
 export type Chapter = z.infer<typeof ChapterSchema>;
 export type NewChapter = z.infer<typeof NewChapterSchema>;
 export type ChapterListItem = z.infer<typeof ChapterListItem>;
+
+export type Translation = z.infer<typeof TranslationSchema>;
 
 export interface IdParam {
 	id: string;

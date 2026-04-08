@@ -1,25 +1,28 @@
-import mongoose, { Schema, model } from "mongoose";
+import { Schema, model } from "mongoose";
 import { User, DBUser } from "../types";
 import { RoleSchema } from "../schemas/user.schema";
+import { Language } from "../../types/languages.enum";
 
-const userSchema: Schema = new Schema<DBUser>({
-	username: { type: String, required: true, unique: true },
-	email: { type: String, required: true, unique: true },
-	name: { type: String, required: true },
-	password: String,
-	role: {
-		type: String,
-		enum: RoleSchema.options,
-		default: "user",
-		required: true,
-	},
-	books: [
-		{
-			type: mongoose.Schema.Types.ObjectId,
-			ref: "Book",
+const userSchema: Schema = new Schema<DBUser>(
+	{
+		name: { type: String, required: true },
+		username: { type: String, required: true, unique: true },
+		password: String,
+		role: {
+			type: String,
+			enum: RoleSchema.options,
+			default: "user",
+			required: true,
 		},
-	],
-});
+		languagePref: {
+			type: String,
+			enum: Language,
+			default: Language["English"],
+			required: true,
+		},
+	},
+	{ timestamps: true },
+);
 
 userSchema.set("toJSON", {
 	transform: (_doc, ret: any): User => {
