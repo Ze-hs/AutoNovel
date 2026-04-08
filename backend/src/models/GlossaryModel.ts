@@ -8,7 +8,13 @@ const glossarySchema: Schema = new Schema<Glossary>(
 			of: String,
 			default: {},
 		},
+		book: {
+			type: Schema.Types.ObjectId,
+			ref: "Book",
+			required: true,
+		},
 	},
+
 	{ timestamps: true },
 );
 
