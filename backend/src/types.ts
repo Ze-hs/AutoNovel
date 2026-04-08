@@ -18,6 +18,7 @@ import {
 	UserSchema,
 } from "./schemas/user.schema";
 import { TranslationSchema } from "./schemas/translations.schema";
+import { GlossarySchema } from "./schemas/glossary.schema";
 
 export type Book = z.infer<typeof BookSchema>;
 export type NewBook = z.infer<typeof NewBookSchema>;
@@ -27,6 +28,8 @@ export type NewChapter = z.infer<typeof NewChapterSchema>;
 export type ChapterListItem = z.infer<typeof ChapterListItem>;
 
 export type Translation = z.infer<typeof TranslationSchema>;
+
+export type Glossary = z.infer<typeof GlossarySchema>;
 
 export interface IdParam {
 	id: string;

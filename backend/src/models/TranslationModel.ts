@@ -2,7 +2,7 @@ import { Schema, model } from "mongoose";
 import { Book, Translation } from "../types";
 import { Language } from "../../types/languages.enum";
 
-const bookSchema: Schema = new Schema<Translation>(
+const translationSchema: Schema = new Schema<Translation>(
 	{
 		book: {
 			type: Schema.Types.ObjectId,
@@ -31,7 +31,7 @@ const bookSchema: Schema = new Schema<Translation>(
 	{ timestamps: true },
 );
 
-bookSchema.set("toJSON", {
+translationSchema.set("toJSON", {
 	transform: (_doc, ret: any) => {
 		ret.id = ret._id.toString();
 		delete ret._id;
@@ -40,4 +40,4 @@ bookSchema.set("toJSON", {
 	},
 });
 
-export default model<Book>("Book", bookSchema);
+export default model<Book>("Translation", translationSchema);
