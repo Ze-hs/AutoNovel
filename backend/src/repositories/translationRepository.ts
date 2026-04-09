@@ -43,11 +43,16 @@ const create = async (newTranslation: NewTranslation): Promise<Translation> => {
 	return translation;
 };
 
-const remove = async (id: string, userId: string): Promise<void> => {
-	const translation = TranslationModel.findOneAndDelete({
+const remove = async (
+	id: string,
+	userId: string,
+): Promise<Translation | null> => {
+	const translation = await TranslationModel.findOneAndDelete({
 		_id: id,
 		user: userId,
 	});
+
+	return translation;
 };
 
 const getTranslationList = async (
