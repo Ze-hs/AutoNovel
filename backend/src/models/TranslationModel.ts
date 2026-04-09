@@ -40,4 +40,4 @@ translationSchema.set("toJSON", {
 	},
 });
 
-export default model<Book>("Translation", translationSchema);
+export default model<Translation>("Translation", translationSchema);

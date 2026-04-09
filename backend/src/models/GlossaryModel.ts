@@ -27,4 +27,4 @@ glossarySchema.set("toJSON", {
 	},
 });
 
-export default model<Book>("Glossary", glossarySchema);
+export default model<Glossary>("Glossary", glossarySchema);
