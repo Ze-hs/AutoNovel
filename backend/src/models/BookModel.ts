@@ -1,22 +1,28 @@
 import { Schema, model } from "mongoose";
 import { Book } from "../types";
+import { Language } from "../../types/languages.enum";
 
-const bookSchema: Schema = new Schema<Book>({
-	author: { type: String },
-	link: { type: String },
-	title: { type: String, required: true },
-	user: {
-		type: Schema.Types.ObjectId,
-		ref: "User",
-		required: true,
-	},
-	chapters: [
-		{
+const bookSchema: Schema = new Schema<Book>(
+	{
+		user: {
 			type: Schema.Types.ObjectId,
-			ref: "Chapter",
+			ref: "User",
+			required: true,
 		},
-	],
-});
+		title: { type: String, required: true },
+		originalLanguage: {
+			type: String,
+			enum: Language,
+			required: true,
+		},
+		tags: [{ type: String }],
+		chapters: [{ type: Schema.Types.ObjectId, ref: "Chapter" }],
+		glossary: { type: Schema.Types.ObjectId, ref: "Gloassary" },
+		author: { type: String },
+		link: { type: String },
+	},
+	{ timestamps: true },
+);
 
 bookSchema.set("toJSON", {
 	transform: (_doc, ret: any) => {
